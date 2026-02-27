@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import TourGallery from "@/components/TourGallery";
 import { notFound } from "next/navigation";
 import { translations } from "@/lib/translations";
@@ -5,30 +6,61 @@ import RatingStars from "@/components/RatingStars";
 import Link from "next/link";
 import BookingBox from "@/components/BookingBox";
 
-type Props = {
-  price: number;
-  currency: string;
-  lang: "es" | "en";
-  tourId: string;
-  title: string;
-  image: string;
-  city: string;
-  duration: string;
+type PageProps = {
+  params: Promise<{
+    lang: "es" | "en";
+    id: string;
+  }>;
 };
 
-export default async function TourPage({
-  params,
-}: {
-  params: Promise<{ lang: string; id: string }>;
-}) {
+export async function generateMetadata(
+  { params }: PageProps
+): Promise<Metadata> {
+
+  const { lang, id } = await params;
+
+  const safeLang = lang === "es" ? "es" : "en";
+
+  const baseUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : `https://${process.env.VERCEL_URL}`;
+
+  const res = await fetch(
+    `${baseUrl}/api/tour/${id}?lang=${safeLang}`,
+    { cache: "no-store" }
+  );
+
+  if (!res.ok) {
+    return {
+      title: "Tour not found",
+    };
+  }
+
+  const tour = await res.json();
+
+  return {
+    title: tour.title,
+    description: tour.excerpt ?? "Discover this tour with Viadrina Tours.",
+    openGraph: {
+      title: tour.title,
+      description: tour.excerpt,
+      images: tour.images?.length ? [tour.images[0]] : [],
+    },
+  };
+}
+
+export default async function TourPage({ params }: PageProps) {
+
   const { lang, id } = await params;
 
   const safeLang = lang === "es" ? "es" : "en";
   const t = translations[safeLang];
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    "http://localhost:3000";
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : `https://${process.env.VERCEL_URL}`;
 
   const res = await fetch(
     `${baseUrl}/api/tour/${id}?lang=${safeLang}`,
@@ -39,7 +71,6 @@ export default async function TourPage({
     return notFound();
   }
 
-  
   const tour = await res.json();
 
   return (
@@ -49,6 +80,7 @@ export default async function TourPage({
           ← {safeLang === "es" ? `Más en ${tour.city}` : `More in ${tour.city}`}
         </Link>
       </div>
+
       <section className="tour-hero">
         <div className="tour-meta-first">
           <span className="tour-city">{tour.city}</span>
@@ -70,7 +102,6 @@ export default async function TourPage({
         <TourGallery images={tour.images} />
       </section>
 
-
       <section className="tour-layout">
         <div className="tour-main">
           <h2>{t.overview}</h2>
@@ -79,39 +110,33 @@ export default async function TourPage({
           />
 
           {tour.included && (
-            <>
-              <div className="vt-content-row">
-                <h3>{t.included}</h3>
-                <div className="vt-content vt-included"
-                  dangerouslySetInnerHTML={{ __html: tour.included }}
-                />
-              </div>
-
-            </>
+            <div className="vt-content-row">
+              <h3>{t.included}</h3>
+              <div
+                className="vt-content vt-included"
+                dangerouslySetInnerHTML={{ __html: tour.included }}
+              />
+            </div>
           )}
 
           {tour.excluded && (
-            <>
             <div className="vt-content-row">
               <h3>{t.notIncluded}</h3>
-              <div className="vt-content vt-excluded"
+              <div
+                className="vt-content vt-excluded"
                 dangerouslySetInnerHTML={{ __html: tour.excluded }}
               />
             </div>
-            </>
           )}
 
           {tour.attention && (
-            <>
-              <div className="vt-content-row">
-                <h3>{t.importantInfo}</h3>
-                <div
-                  dangerouslySetInnerHTML={{ __html: tour.attention }}
-                />
-              </div>
-            </>
+            <div className="vt-content-row">
+              <h3>{t.importantInfo}</h3>
+              <div
+                dangerouslySetInnerHTML={{ __html: tour.attention }}
+              />
+            </div>
           )}
-
         </div>
 
         <aside className="tour-sidebar">

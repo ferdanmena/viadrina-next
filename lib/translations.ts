@@ -86,7 +86,6 @@ export const translations = {
     aboutTitle: "Sobre Viadrina Tours",
     aboutSubtitle: "Experiencias auténticas en Wrocław y Europa Central.",
     aboutTooltip: "Breslavia, Polonia",
-
     aboutSection1Title: "Nuestra Historia",
     aboutSection1Text:
       "Viadrina Tours nació con el objetivo de ofrecer experiencias cuidadas y significativas en Wrocław y Europa Central. Creemos que viajar debe ser personal, enriquecedor y memorable.",
@@ -119,6 +118,14 @@ export const translations = {
     archiveSortPriceDesc: "Precio: mayor a menor",
     archiveSortDurationAsc: "Duración: corta a larga",
     archiveSortDurationDesc: "Duración: larga a corta",
+    // Login
+    authEmailLabel: "Correo electrónico",
+    authMagicLinkButton: "Enviar enlace de acceso",
+    authForgotPassword: "¿Olvidaste tu contraseña?",
+    authTermsText1:
+      "Al continuar, aceptas nuestros Términos de Uso y confirmas que has leído nuestra Política de Privacidad y Cookies.",
+    authTermsText2:
+      "Este sitio está protegido por reCAPTCHA y se aplican la Política de Privacidad y los Términos del Servicio de Google.",
 
   },
 
@@ -241,5 +248,13 @@ export const translations = {
     archiveSortPriceDesc: "Price: high to low",
     archiveSortDurationAsc: "Duration: short to long",
     archiveSortDurationDesc: "Duration: long to short",
+    // Login
+    authEmailLabel: "Email address",
+    authMagicLinkButton: "Send login link",
+    authForgotPassword: "Forgot your password?",
+    authTermsText1:
+      "By continuing, you agree to our Terms of Use and acknowledge that you have read our Privacy and Cookie Policy.",
+    authTermsText2:
+      "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.",
   },
 };

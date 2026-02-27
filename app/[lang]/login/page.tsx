@@ -1,19 +1,22 @@
 import AuthPanel from "@/components/AuthPanel";
 
-export default function LoginPage({
+export default async function LoginPage({
   params,
 }: {
-  params: { lang: "es" | "en" };
+  params: Promise<{ lang: "es" | "en" }>;
 }) {
-  const { lang } = params;
+  const { lang } = await params;
+
+  const safeLang: "es" | "en" =
+    lang === "es" ? "es" : "en";
 
   return (
     <main className="container" style={{ maxWidth: 420 }}>
       <h1>
-        {lang === "es" ? "Iniciar sesión" : "Login"}
+        {safeLang === "es" ? "Iniciar sesión" : "Login"}
       </h1>
 
-      <AuthPanel lang={lang} />
+      <AuthPanel lang={safeLang} />
     </main>
   );
 }

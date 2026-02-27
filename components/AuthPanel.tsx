@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
+import { translations } from "@/lib/translations";
 
 type Props = {
   lang: "es" | "en";
@@ -12,6 +13,8 @@ export default function AuthPanel({ lang }: Props) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const t = translations[lang];
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -54,22 +57,41 @@ export default function AuthPanel({ lang }: Props) {
     return (
       <div className="auth-panel">
         <h3>
-          {lang === "es" ? "Iniciar sesión" : "Login"}
+          {lang === "es" ? "Accede a tu cuenta" : "Login to your account"}
         </h3>
 
+        <div className="auth-field">
+          <label>{t.firstName}</label>
         <input
           placeholder={lang === "es" ? "Nombre" : "Name"}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        </div>
 
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="auth-field">
+          <label>{t.authEmailLabel}</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
 
-        <button onClick={login} disabled={loading}>
+        {!user && (
+          <button
+            type="button"
+            className="auth-forgot"
+            onClick={() => alert("Password recovery coming soon")}
+          >
+            {t.authForgotPassword}
+          </button>
+        )}
+
+        <button 
+        className="btn-primary"
+        onClick={login} disabled={loading}>
           {loading
             ? lang === "es"
               ? "Enviando..."
@@ -78,6 +100,11 @@ export default function AuthPanel({ lang }: Props) {
             ? "Recibir enlace"
             : "Send magic link"}
         </button>
+
+        <div className="auth-legal">
+          <p>{t.authTermsText1}</p>
+          <p>{t.authTermsText2}</p>
+        </div>
       </div>
     );
   }
@@ -95,7 +122,9 @@ export default function AuthPanel({ lang }: Props) {
         {fullName || user.email}
       </p>
 
-      <button onClick={logout}>
+      <button 
+      className="btn-primary"
+      onClick={logout}>
         {lang === "es" ? "Cerrar sesión" : "Logout"}
       </button>
     </div>
