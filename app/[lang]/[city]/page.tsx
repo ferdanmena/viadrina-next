@@ -11,8 +11,9 @@ export default async function CityPage({
   const safeLang = lang === "es" ? "es" : "en";
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    "http://localhost:3000";
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : `https://${process.env.VERCEL_URL}`;
 
   const res = await fetch(
     `${baseUrl}/api/tours?lang=${safeLang}&city=${city}`,
