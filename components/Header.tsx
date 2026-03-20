@@ -35,6 +35,8 @@ export default function Header({ lang, locations }: HeaderProps) {
   const [user, setUser] = useState<any>(null);
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -102,7 +104,7 @@ export default function Header({ lang, locations }: HeaderProps) {
 
     const queryString = searchParams.toString();
 
-    router.push(queryString ? `${newPath}?${queryString}` : newPath);
+    router.push(queryString ? `${newPath}?${queryString}` : newPath, { scroll: false });
   }
 
   return (
@@ -206,19 +208,36 @@ export default function Header({ lang, locations }: HeaderProps) {
               {lang === "es" ? "Contacto" : "Contact"}
             </Link>
 
-            <div className="lang-switcher">
+            <div className="lang-dropdown">
               <button
-                className={lang === "es" ? "active" : ""}
-                onClick={() => switchLanguage("es")}
+                className="lang-dropdown-trigger"
+                onClick={() => setLangOpen(!langOpen)}
               >
-                ES
+                {lang.toUpperCase()} ▾
               </button>
-              <button
-                className={lang === "en" ? "active" : ""}
-                onClick={() => switchLanguage("en")}
-              >
-                EN
-              </button>
+
+              {langOpen && (
+                <div className="lang-dropdown-menu">
+                  {[
+                    { code: "es", label: "ES" },
+                    { code: "en", label: "EN" },
+                    // { code: "pl", label: "PL" },
+                    // { code: "de", label: "DE" },
+                  ]
+                    .filter((l) => l.code !== lang)
+                    .map((l) => (
+                      <button
+                        key={l.code}
+                        onClick={() => {
+                          switchLanguage(l.code as "es" | "en");
+                          setLangOpen(false);
+                        }}
+                      >
+                        {l.label}
+                      </button>
+                    ))}
+                </div>
+              )}
             </div>
 
             <div className="user-menu">

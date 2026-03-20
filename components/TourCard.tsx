@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/formatCurrency";
 import WishlistButton from "./WishlistButton";
+import { Lang } from "@/lib/translations";
 
 type Props = {
   id: number;
@@ -10,7 +11,7 @@ type Props = {
   currency: string;
   city: string;
   image?: string;
-  lang?: "es" | "en";
+  lang?: Lang;
   duration?: {
   hours: number;
   minutes: number;

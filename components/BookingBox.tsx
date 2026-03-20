@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/lib/formatCurrency";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { Lang } from "@/lib/translations";
+import { es, enGB, pl } from "date-fns/locale";
 
 type Props = {
   price: number;
   currency: string;
-  lang: "es" | "en";
+  lang: Lang;
   tourId: string;
   title: string;
   image: string;
@@ -167,10 +169,21 @@ export default function BookingBox({
     0
   );
 
-  const locale = lang === "es" ? "es-ES" : "en-GB";
+  const localeMap = {
+    es: "es-ES",
+    en: "en-GB",
+    pl: "pl-PL",
+  };
+
+  const locale = localeMap[lang] ?? "en-GB";
 
   const formattedPrice = formatCurrency(price, currency, locale);
   const formattedTotal = formatCurrency(total, currency, locale);
+  const calendarLocale = {
+    es: es,
+    en: enGB,
+    pl: pl,
+  };
 
   let disabledDays: any[] = [{ before: new Date() }];
 
@@ -282,6 +295,7 @@ export default function BookingBox({
             selected={date}
             onSelect={setDate}
             disabled={disabledDays}
+            locale={calendarLocale[lang]}
           />
         </div>
 
