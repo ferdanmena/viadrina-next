@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { translations } from "@/lib/translations";
+import { Lang, translations } from "@/lib/translations"; 
 
 
 type Props = {
-    lang: "es" | "en";
+    lang: Lang;
 };
 
 export default function ContactClient({ lang }: Props) {

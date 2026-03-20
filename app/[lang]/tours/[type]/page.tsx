@@ -34,7 +34,7 @@ export default async function ToursTypePage({
 
   const res = await fetch(
     `${baseUrl}/api/product-list/${listId}?lang=${safeLang}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } } 
   );
 
   if (!res.ok) {

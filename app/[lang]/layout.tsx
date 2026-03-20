@@ -10,7 +10,7 @@ export default async function LangLayout({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const safeLang = lang === "es" ? "es" : "en";
+  const safeLang = lang === "es" ? "es" : lang === "pl" ? "pl" : "en";
 
   const baseUrl =
     process.env.NODE_ENV === "development"
@@ -19,7 +19,7 @@ export default async function LangLayout({
 
   const locations = await fetch(
     `${baseUrl}/api/locations?lang=${safeLang}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } }
   ).then(res => res.json());
 
   return (

@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { translations } from "@/lib/translations";
+import { Lang, translations } from "@/lib/translations";  // ← agregar translations
 
 type FooterProps = {
-  lang: "es" | "en";
+  lang: Lang;
 };
 
 export default function Footer({ lang }: FooterProps) {
-  const t = translations[lang];
+  const t = translations[lang];  // ✓ ahora funciona
 
   return (
     <footer className="footer">
@@ -23,7 +23,9 @@ export default function Footer({ lang }: FooterProps) {
               className="footer-logo"
             />
             <p className="footer-tagline">
-              {lang === "es"
+              {lang === "pl"
+                ? "Kulturowe doświadczenia w Europie Środkowej."
+                : lang === "es"
                 ? "Experiencias culturales en Europa Central."
                 : "Cultural experiences across Central Europe."}
             </p>
@@ -42,7 +44,7 @@ export default function Footer({ lang }: FooterProps) {
 
           <div className="footer-col">
             <h4>
-              {lang === "es" ? "Destinos" : "Destinations"}
+              {lang === "pl" ? "Destynacje" : lang === "es" ? "Destinos" : "Destinations"}
             </h4>
             <ul>
               <li>Wrocław</li>
@@ -53,7 +55,7 @@ export default function Footer({ lang }: FooterProps) {
 
           <div className="footer-col">
             <h4>
-              {lang === "es" ? "Empresa" : "Company"}
+              {lang === "pl" ? "Firma" : lang === "es" ? "Empresa" : "Company"}
             </h4>
             <ul>
               <li>About us</li>

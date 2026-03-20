@@ -17,7 +17,7 @@ export default async function CityPage({
 
   const res = await fetch(
     `${baseUrl}/api/tours?lang=${safeLang}&city=${city}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } }
   );
 
   if (!res.ok) {

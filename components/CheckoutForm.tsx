@@ -13,7 +13,6 @@ interface Props {
     lastName: string;
     email: string;
     phone: string;
-
   };
 }
 
@@ -26,17 +25,24 @@ export default function CheckoutForm({
 }: Props) {
   const stripe = useStripe();
   const elements = useElements();
+
   const [loading, setLoading] = useState(false);
+  const [accepted, setAccepted] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    if (!accepted) return;
     if (!stripe || !elements) return;
 
     setLoading(true);
 
     const cardElement = elements.getElement(CardElement);
-    if (!cardElement) return;
+
+    if (!cardElement) {
+      setLoading(false);
+      return;
+    }
 
     const { paymentMethod, error } = await stripe.createPaymentMethod({
       type: "card",
@@ -75,7 +81,20 @@ export default function CheckoutForm({
   return (
     <form onSubmit={handleSubmit}>
       <CardElement />
-      <button className="btn-primary" disabled={loading}>
+
+      <label className="checkout-terms">
+        <input
+          type="checkbox"
+          checked={accepted}
+          onChange={(e) => setAccepted(e.target.checked)}
+        />
+        I accept the Terms and Conditions
+      </label>
+
+      <button
+        className="btn-primary"
+        disabled={loading || !accepted}
+      >
         {loading ? "Processing..." : "Pay now"}
       </button>
     </form>

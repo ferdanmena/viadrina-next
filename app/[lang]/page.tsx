@@ -7,7 +7,7 @@ export default async function Home({
 }) {
   const { lang } = await params;
 
-  const safeLang = lang === "es" ? "es" : "en";
+  const safeLang = lang === "es" ? "es" : lang === "pl" ? "pl" : "en";
 
   const baseUrl =
   process.env.NODE_ENV === "development"
@@ -16,10 +16,10 @@ export default async function Home({
 
   const [featuredRes, freeRes] = await Promise.all([
     fetch(`${baseUrl}/api/product-list/104678?lang=${safeLang}`, {
-      cache: "no-store",
+      next: { revalidate: 3600 },
     }),
     fetch(`${baseUrl}/api/product-list/104677?lang=${safeLang}`, {
-      cache: "no-store",
+      next: { revalidate: 3600 },
     }),
   ]);
 

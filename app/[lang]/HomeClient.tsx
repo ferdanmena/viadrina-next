@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import TourCard from "@/components/TourCard";
-import { translations } from "@/lib/translations";
+import { translations, Lang } from "@/lib/translations";
 
 type HomeClientProps = {
-  lang: "es" | "en";
+  lang: Lang;
   tours: any[];       // Featured
   freeTours?: any[];  // Free tours (optional)
 };
@@ -15,7 +15,7 @@ export default function HomeClient({
   tours,
   freeTours = [],
 }: HomeClientProps) {
-  const safeLang = lang === "es" ? "es" : "en";
+  const safeLang: Lang = lang === "es" ? "es" : lang === "pl" ? "pl" : "en";
   const t = translations[safeLang];
   const [isFocused, setIsFocused] = useState(false);
   const [query, setQuery] = useState("");

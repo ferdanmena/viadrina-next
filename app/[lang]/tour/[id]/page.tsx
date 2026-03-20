@@ -28,7 +28,7 @@ export async function generateMetadata(
 
   const res = await fetch(
     `${baseUrl}/api/tour/${id}?lang=${safeLang}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } }
   );
 
   if (!res.ok) {
@@ -64,7 +64,7 @@ export default async function TourPage({ params }: PageProps) {
 
   const res = await fetch(
     `${baseUrl}/api/tour/${id}?lang=${safeLang}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } }
   );
 
   if (!res.ok) {

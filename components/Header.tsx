@@ -7,9 +7,10 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { Lang, translations } from "@/lib/translations"; 
 
 type HeaderProps = {
-  lang: "es" | "en";
+  lang: Lang;
   locations: Record<string, string[]>;
 };
 
