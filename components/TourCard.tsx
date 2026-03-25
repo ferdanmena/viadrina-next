@@ -3,6 +3,7 @@ import Image from "next/image";
 import { formatCurrency } from "@/lib/formatCurrency";
 import WishlistButton from "./WishlistButton";
 import { Lang } from "@/lib/translations";
+import { translateCity } from "@/lib/locationNames";
 
 type Props = {
   id: number;
@@ -52,7 +53,7 @@ export default function TourCard({
 
       <div className="tour-card-content">
         <div className="card-header">
-          <div className="tour-city">{city}</div>
+          <div className="tour-city">{translateCity(city, lang)}</div>
           <h3>{title}</h3>
         </div>
         <div className="card-footer">

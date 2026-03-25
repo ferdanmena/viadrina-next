@@ -1,5 +1,7 @@
 import ToursArchiveClient from "@/components/ToursArchiveClient";
 import { notFound } from "next/navigation";
+import { translateCity } from "@/lib/locationNames";
+import { Lang } from "@/lib/translations";
 
 export default async function CityPage({
   params,
@@ -8,10 +10,10 @@ export default async function CityPage({
 }) {
   const { lang, city } = await params;
 
-  const safeLang = lang === "es" ? "es" : "en";
+  const safeLang: Lang = lang === "es" ? "es" : lang === "pl" ? "pl" : "en";
 
   const baseUrl =
-  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const res = await fetch(
     `${baseUrl}/api/tours?lang=${safeLang}&city=${city}`,
@@ -28,19 +30,22 @@ export default async function CityPage({
     return notFound();
   }
 
+  const originalCity = tours[0]?.city ?? city;
+  const cityDisplay = translateCity(originalCity, safeLang);
+
   return (
     <>
       <section className="city-hero container">
         <h1>
           {safeLang === "es"
-            ? `Tours en ${city}`
-            : `Tours in ${city}`}
+            ? `Tours en ${cityDisplay}`
+            : `Tours in ${cityDisplay}`}
         </h1>
 
         <p>
           {safeLang === "es"
-            ? `Descubre las mejores experiencias en ${city}.`
-            : `Discover the best experiences in ${city}.`}
+            ? `Descubre las mejores experiencias en ${cityDisplay}.`
+            : `Discover the best experiences in ${cityDisplay}.`}
         </p>
       </section>
 

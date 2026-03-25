@@ -18,6 +18,14 @@ type TourItem = {
   } | null;
 };
 
+function slugify(str: string) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -25,8 +33,12 @@ export async function GET(request: Request) {
     const langParam = searchParams.get("lang") || "en";
     const cityParam = searchParams.get("city");
 
-    const bokunLang =
-      langParam.toLowerCase() === "es" ? "ES" : "EN";
+    const langMap: Record<string, string> = {
+      es: "ES",
+      en: "EN",
+      pl: "PL",
+    };
+    const bokunLang = langMap[langParam.toLowerCase()] ?? "EN";
 
     const productListId = "16220";
 
@@ -81,7 +93,7 @@ export async function GET(request: Request) {
 
     const filtered: TourItem[] = cityParam
       ? mapped.filter((t: TourItem) =>
-          t.city?.toLowerCase() === cityParam.toLowerCase()
+          slugify(t.city) === slugify(cityParam)
         )
       : mapped;
 

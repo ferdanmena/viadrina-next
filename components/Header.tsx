@@ -7,7 +7,9 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { Lang, translations } from "@/lib/translations"; 
+import { Lang, translations } from "@/lib/translations";
+import { translateCity, translateCountry } from "@/lib/locationNames";
+
 
 type HeaderProps = {
   lang: Lang;
@@ -186,19 +188,20 @@ export default function Header({ lang, locations }: HeaderProps) {
               <div className="tours-mega-menu">
                 {Object.entries(locations).map(([country, cities]) => (
                   <div key={country} className="mega-country">
-                    <strong>{country}</strong>
+                    <strong>{translateCountry(country, lang)}</strong>
 
                     {cities.map((city) => (
                       <Link
                         key={city}
                         href={`/${lang}/${slugify(city)}`}
                       >
-                        {city}
+                        {translateCity(city, lang)}
                       </Link>
                     ))}
                   </div>
                 ))}
               </div>
+
             </div>
             <Link href={`/${lang}/about`}>
               {lang === "es" ? "Nosotros" : "About"}
