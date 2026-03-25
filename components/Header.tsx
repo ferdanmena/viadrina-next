@@ -204,6 +204,10 @@ export default function Header({ lang, locations }: HeaderProps) {
               {lang === "es" ? "Nosotros" : "About"}
             </Link>
 
+            <Link href={`/${lang}/blog`}>
+              Blog
+            </Link>
+
             <Link href={`/${lang}/contact`}>
               {lang === "es" ? "Contacto" : "Contact"}
             </Link>
@@ -350,6 +354,10 @@ export default function Header({ lang, locations }: HeaderProps) {
 
               <Link href={`/${lang}/about`} onClick={() => setMobileOpen(false)}>
                 {lang === "es" ? "Nosotros" : "About"}
+              </Link>
+
+              <Link href={`/${lang}/blog`} onClick={() => setMobileOpen(false)}>
+                Blog
               </Link>
 
               <Link href={`/${lang}/contact`} onClick={() => setMobileOpen(false)}>

@@ -10,9 +10,7 @@ export default async function Home({
   const safeLang = lang === "es" ? "es" : lang === "pl" ? "pl" : "en";
 
   const baseUrl =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : `https://${process.env.VERCEL_URL}`;
+  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const [featuredRes, freeRes] = await Promise.all([
     fetch(`${baseUrl}/api/product-list/104678?lang=${safeLang}`, {

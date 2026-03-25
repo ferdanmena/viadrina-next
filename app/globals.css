@@ -49,6 +49,11 @@ HEADER
   width: auto;
 }
 
+.site-header .logo img:hover {
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
 .site-header .header-search {
   flex: 1;
   max-width: 420px;
@@ -2278,4 +2283,114 @@ LANG DROPDOWN
 .lang-dropdown-menu button:hover {
   background: #f5f5f5;
   color: var(--brand-primary);
+}
+
+/* =====================
+BLOG PAGE
+===================== */
+.blog-hero {
+  padding: 40px 0 30px;
+}
+
+.blog-hero h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.blog-hero p {
+  color: var(--text-color-base);
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  transition: box-shadow 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.blog-card:hover {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.blog-card-image {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.blog-card-img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.blog-card:hover .blog-card-img {
+  transform: scale(1.03);
+}
+
+.blog-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  flex: 1;
+}
+
+.blog-card-date {
+  font-size: 0.75rem;
+  color: var(--text-color-base);
+}
+
+.blog-card-content h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #111;
+}
+
+.blog-card-excerpt {
+  font-size: 0.85rem;
+  color: var(--text-color-base);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-card-excerpt p {
+  margin: 0;
+}
+
+.blog-read-more {
+  font-size: 0.85rem;
+  color: var(--brand-primary);
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 8px;
 }

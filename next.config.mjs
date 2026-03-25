@@ -15,9 +15,12 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'bokun.s3.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'blog.viadrinatours.com',
+      },
     ],
   },
 };
-
 
 export default withMDX(nextConfig)

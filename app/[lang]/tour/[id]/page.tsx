@@ -22,9 +22,7 @@ export async function generateMetadata(
   const safeLang = lang === "es" ? "es" : "en";
 
   const baseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : `https://${process.env.VERCEL_URL}`;
+  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const res = await fetch(
     `${baseUrl}/api/tour/${id}?lang=${safeLang}`,
@@ -58,9 +56,7 @@ export default async function TourPage({ params }: PageProps) {
   const t = translations[safeLang];
 
   const baseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : `https://${process.env.VERCEL_URL}`;
+  process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const res = await fetch(
     `${baseUrl}/api/tour/${id}?lang=${safeLang}`,
